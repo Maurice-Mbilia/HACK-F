@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
         '/favorites': (context) => const Favorites(),
+        '/places': (context) => const Places(title: 'Places'),
       },
       theme: ThemeData(
         // This is the theme of your application.
@@ -54,7 +55,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -116,45 +117,52 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        backgroundColor: const Color(0xFF6200EE),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(.6),
-        selectedFontSize: 14,
-        unselectedFontSize: 14,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.pushNamed(context, "/home");
-              break;
-            case 1:
-              Navigator.pushNamed(context, "/favorites");
-              break;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(Icons.home),
-          ),
-          BottomNavigationBarItem(
-            label: 'Favorites',
-            icon: Icon(Icons.favorite),
-          ),
-          BottomNavigationBarItem(
-            label: 'Places',
-            icon: Icon(Icons.location_on),
-          ),
-          BottomNavigationBarItem(
-            label: 'User',
-            icon: Icon(Icons.account_circle_rounded),
-          ),
-        ],
-      ),
+      bottomNavigationBar: _buildBottomNavigationBar(_currentIndex, context),
     );
   }
+}
+
+Widget _buildBottomNavigationBar(_currentIndex, context) {
+  return BottomNavigationBar(
+    type: BottomNavigationBarType.fixed,
+    currentIndex: _currentIndex,
+    backgroundColor: const Color(0xFF6200EE),
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Colors.white.withOpacity(.6),
+    selectedFontSize: 14,
+    unselectedFontSize: 14,
+    onTap: (index) {
+      switch (index) {
+        case 0:
+          Navigator.pushNamed(context, "/home");
+          break;
+        case 1:
+          Navigator.pushNamed(context, "/favorites");
+          break;
+        case 2:
+          Navigator.pushNamed(context, "/places");
+          break;
+      }
+    },
+    items: const [
+      BottomNavigationBarItem(
+        label: 'Home',
+        icon: Icon(Icons.home),
+      ),
+      BottomNavigationBarItem(
+        label: 'Favorites',
+        icon: Icon(Icons.favorite),
+      ),
+      BottomNavigationBarItem(
+        label: 'Places',
+        icon: Icon(Icons.location_on),
+      ),
+      BottomNavigationBarItem(
+        label: 'User',
+        icon: Icon(Icons.account_circle_rounded),
+      ),
+    ],
+  );
 }
 
 class Favorites extends StatelessWidget {
@@ -174,6 +182,34 @@ class Favorites extends StatelessWidget {
           child: const Text('Go back!'),
         ),
       ),
+    );
+  }
+}
+
+class Places extends StatefulWidget {
+  const Places({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<Places> createState() => _Places();
+}
+
+class _Places extends State<Places> {
+  final int _currentIndex = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+      ),
+      bottomNavigationBar: _buildBottomNavigationBar(_currentIndex, context),
     );
   }
 }
