@@ -11,7 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'HACK Team F',
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+        '/favorites': (context) => const Favorites(),
+      },
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -119,9 +124,15 @@ class _MyHomePageState extends State<MyHomePage> {
         unselectedItemColor: Colors.white.withOpacity(.6),
         selectedFontSize: 14,
         unselectedFontSize: 14,
-        onTap: (value) {
-          // Respond to item press.
-          setState(() => _currentIndex = value);
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushNamed(context, "/home");
+              break;
+            case 1:
+              Navigator.pushNamed(context, "/favorites");
+              break;
+          }
         },
         items: const [
           BottomNavigationBarItem(
@@ -141,6 +152,27 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.account_circle_rounded),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class Favorites extends StatelessWidget {
+  const Favorites({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Favorites"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, "/home");
+          },
+          child: const Text('Go back!'),
+        ),
       ),
     );
   }
